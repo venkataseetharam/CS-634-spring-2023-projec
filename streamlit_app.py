@@ -21,9 +21,9 @@ if submit:
     score = result['score']
 
     if label == 'POSITIVE':
-        st.success(f'{label} sentiment (score: {score})')
+        st.success(f'{label}')
     else:
-        st.error(f'{label} sentiment (score: {score})')
+        st.error(f'{label}')
 
 
 # In[ ]:
