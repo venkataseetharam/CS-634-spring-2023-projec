@@ -7,27 +7,45 @@
 import streamlit as st
 from transformers import pipeline
 
-st.title('Sentiment Analyser App')
+
+# In[2]:
 
 
-form = st.form(key='sentiment-form')
-user_input = form.text_area('Enter your text')
-submit = form.form_submit_button('Submit')
+def analyze_sentiment(model_name, text):
+    classifier = pipeline('sentiment-analysis', model=model_name)
+    result = classifier(text)
+    label = result[0]['label']
+    
 
-if submit:
-    classifier = pipeline("sentiment-analysis")
-    result = classifier(user_input)[0]
-    label = result['label']
-    score = result['score']
-
-    if label == 'POSITIVE':
-        st.success(f'{label}')
+    if label == 'LABEL_1':
+        d='Negative'
+        st.error(f'{d}')
     else:
-        st.error(f'{label}')
+        d='Positive'
+        st.success(f'{d}')
+        
+
+
+# In[3]:
+
+
+def main():
+    st.title('Sentiment Analysis App')
+    
+    # Get user input
+    text = st.text_area('Enter text')
+    model_name = st.selectbox('Select a model', ['distilbert-base-uncased', 'bert-base-uncased', 'roberta-base'])
+
+    # Analyze sentiment
+    if st.button('Submit'):
+        sentiment = analyze_sentiment(model_name, text)
+       
+        
+if __name__ == '__main__':
+    main()
 
 
 # In[ ]:
-
 
 
 
